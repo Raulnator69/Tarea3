@@ -1,0 +1,73 @@
+body {
+    background-color: #f4f7fc; /* Fondo más suave */
+    font-family: 'Arial', sans-serif;
+    padding-top: 30px;
+}
+
+h2 {
+    color: #333;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+    resize: none;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+textarea:focus {
+    border-color: #007bff;
+}
+
+#start-recording, #stop-recording {
+    margin: 0 10px;
+}
+
+label[for="audio-file-input"] {
+    display: inline-block;
+    margin-top: 15px;
+}
+
+#audio-file-input {
+    display: none; /* Ocultamos el input real */
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.25em;
+}
+
+#loading-indicator {
+    margin-top: 30px;
+}
+
+#audio-playback .card {
+    border: 2px solid #007bff; /* Borde azul para la caja del reproductor */
+    padding: 20px;
+    background-color: #fafafa;
+}
+
+#audio-container {
+    padding: 10px;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+textarea:disabled {
+    background-color: #f0f0f0;
+}
+
+

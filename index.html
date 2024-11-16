@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcripción de Audio y Cifrado</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css"> <!-- Conectar el archivo CSS -->
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Transcritor de audio</h2>
+
+        <!-- Sección de botones de grabación -->
+        <div class="text-center mb-3">
+            <button id="start-recording" class="btn btn-primary btn-lg">Iniciar Grabación</button>
+            <button id="stop-recording" class="btn btn-danger btn-lg" disabled>Detener Grabación</button>
+        </div>
+
+        <!-- Sección de selección de archivo centrada -->
+        <div class="text-center mb-4">
+            <label for="audio-file-input" class="btn btn-success btn-lg">Seleccionar Archivo de Audio</label>
+            <input type="file" id="audio-file-input" accept=".mp3, .mp4, .wav, .opus" class="d-none">
+        </div>
+
+        <!-- Contenedor para el reproductor de audio dentro de una caja -->
+        <div id="audio-playback" class="text-center mt-4">
+            <div class="card p-3">
+                <h5 class="card-title text-center">Reproductor de Audio</h5>
+                <div id="audio-container" class="text-center">
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Indicador de carga (ruedita) -->
+        <div id="loading-indicator" class="text-center mt-4" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+        </div>
+
+        <!-- Área de transcripción y texto cifrado -->
+        <div class="mt-4">
+            <div class="card p-4">
+                <h4 class="text-center">Texto Transcrito</h4>
+                <textarea id="transcription-result" class="form-control" rows="5" readonly>Texto transcrito aparecerá aquí...</textarea>
+            </div>
+
+            <div class="card p-4 mt-3">
+                <h4 class="text-center">Texto Cifrado (AES-128)</h4>
+                <textarea id="encrypted-text" class="form-control" rows="5" readonly>Texto cifrado aparecerá aquí...</textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+</body>
+</html>
