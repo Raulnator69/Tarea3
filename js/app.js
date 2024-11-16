@@ -146,3 +146,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return transcript;
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Obtener los elementos
+    const transcriptionResult = document.getElementById('transcription-result');
+    const encryptedText = document.getElementById('encrypted-text');
+    const copyTranscriptionBtn = document.getElementById('copy-transcription');
+    const copyEncryptedBtn = document.getElementById('copy-encrypted');
+
+    // Función para copiar al portapapeles
+    function copyToClipboard(textarea) {
+        textarea.select();
+        textarea.setSelectionRange(0, 99999); // Para móviles
+        document.execCommand('copy');
+        alert('Texto copiado al portapapeles');
+    }
+
+    // Manejar clic en botón de copiar transcripción
+    copyTranscriptionBtn.onclick = () => {
+        copyToClipboard(transcriptionResult);
+    };
+
+    // Manejar clic en botón de copiar texto cifrado
+    copyEncryptedBtn.onclick = () => {
+        copyToClipboard(encryptedText);
+    };
+});
