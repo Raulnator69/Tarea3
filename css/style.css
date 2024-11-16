@@ -124,3 +124,7 @@ textarea:disabled {
 .mt-2 {
     margin-top: 1rem;
 }
+
+#encrypted-text-container {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}

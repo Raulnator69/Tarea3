@@ -57,8 +57,15 @@
             <!-- Texto cifrado -->
             <div class="card p-4 mt-3">
                 <h4 class="text-center">Texto Cifrado (AES-128)</h4>
-                <textarea id="encrypted-text" class="form-control" rows="5" readonly>Texto cifrado aparecerá aquí...</textarea>
-                <div id="encrypted-letter-count" class="text-right">Letras: 0</div> <!-- Contador de letras -->
+                
+                <!-- Botón para mostrar/ocultar el texto cifrado -->
+                <button id="toggle-encrypted" class="btn btn-info mb-2">Mostrar/Ocultar Texto Cifrado</button>
+
+                <!-- Contenedor de texto cifrado -->
+                <div id="encrypted-text-container">
+                    <textarea id="encrypted-text" class="form-control" rows="5" readonly>Texto cifrado aparecerá aquí...</textarea>
+                    <div id="encrypted-letter-count" class="text-right">Letras: 0</div> <!-- Contador de letras -->
+                </div>
             </div>
 
             <!-- Botones para copiar y descargar el texto cifrado -->
@@ -72,5 +79,6 @@
     <!-- Scripts -->
     <script src="js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+    </script>
 </body>
 </html>
