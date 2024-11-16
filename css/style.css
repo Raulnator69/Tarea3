@@ -128,3 +128,49 @@ textarea:disabled {
 #encrypted-text-container {
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
+
+/* Modo oscuro */
+body.dark-mode {
+    background-color: #121212; 
+    color: #E0E0E0; 
+    transition: all 0.3s ease; 
+}
+
+body.dark-mode .container {
+    background-color: #1c1c1c; 
+    color: #E0E0E0; 
+}
+
+body.dark-mode .card {
+    background-color: #333333; 
+    color: #E0E0E0; 
+    border: 1px solid #444444; /
+}
+
+/* Cambiar color de texto del encabezado en modo oscuro */
+body.dark-mode h2 {
+    color: #ffffff;
+}
+
+/* Modo claro (predeterminado) */
+body {
+    background-color: #ffffff;
+    color: #000000; 
+    transition: all 0.3s ease;
+}
+
+.container {
+    background-color: #f9f9f9;
+    color: #000000; 
+}
+
+.card {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #dddddd;
+}
+
+body h2 {
+    color: #000000;
+}
+
