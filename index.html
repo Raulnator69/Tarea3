@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css"> <!-- Conectar el archivo CSS -->
 </head>
+
 <body>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Transcritor de audio</h2>
@@ -46,9 +48,10 @@
                 <div id="transcription-letter-count" class="text-right">Letras: 0</div> <!-- Contador de letras -->
             </div>
 
-            <!-- Botón para copiar texto transcrito -->
-            <div class="text-right mt-2">
+            <!-- Botones para copiar y descargar la transcripción -->
+            <div class="d-flex justify-content-between mt-2">
                 <button id="copy-transcription" class="btn btn-secondary">Copiar Transcripción</button>
+                <button id="download-transcription" class="btn btn-success">Descargar Transcripción</button>
             </div>
 
             <!-- Texto cifrado -->
@@ -58,9 +61,10 @@
                 <div id="encrypted-letter-count" class="text-right">Letras: 0</div> <!-- Contador de letras -->
             </div>
 
-            <!-- Botón para copiar texto cifrado -->
-            <div class="text-right mt-2">
+            <!-- Botones para copiar y descargar el texto cifrado -->
+            <div class="d-flex justify-content-between mt-2">
                 <button id="copy-encrypted" class="btn btn-secondary">Copiar Texto Cifrado</button>
+                <button id="download-encrypted" class="btn btn-success">Descargar Texto Cifrado</button>
             </div>
         </div>
     </div>
