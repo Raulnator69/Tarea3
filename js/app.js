@@ -259,3 +259,14 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadAsFile('texto_cifrado.txt', content);
     };
 });
+
+document.getElementById('toggle-encrypted').onclick = () => {
+    const encryptedTextContainer = document.getElementById('encrypted-text-container');
+    
+    // Alterna la visibilidad del contenedor de texto cifrado
+    if (encryptedTextContainer.style.display === 'none') {
+        encryptedTextContainer.style.display = 'block';
+    } else {
+        encryptedTextContainer.style.display = 'none';
+    }
+};
