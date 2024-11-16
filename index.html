@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css"> <!-- Conectar el archivo CSS -->
 </head>
+
 <body>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Transcritor de audio</h2>
+
+        <!-- Botón para alternar entre modo claro y modo oscuro -->
+        <button id="toggle-dark-mode" class="btn btn-dark" style="position: absolute; top: 10px; right: 10px;">Modo Oscuro</button>
+
 
         <!-- Sección de botones de grabación -->
         <div class="text-center mb-3">
@@ -23,17 +29,15 @@
             <input type="file" id="audio-file-input" accept=".mp3, .mp4, .wav, .opus" class="d-none">
         </div>
 
-        <!-- Contenedor para el reproductor de audio dentro de una caja -->
+        <!-- Contenedor para el reproductor de audio -->
         <div id="audio-playback" class="text-center mt-4">
             <div class="card p-3">
                 <h5 class="card-title text-center">Reproductor de Audio</h5>
-                <div id="audio-container" class="text-center">
-                    
-                </div>
+                <div id="audio-container" class="text-center"></div>
             </div>
         </div>
 
-        <!-- Indicador de carga (ruedita) -->
+        <!-- Indicador de carga -->
         <div id="loading-indicator" class="text-center mt-4" style="display: none;">
             <div class="spinner-border text-primary" role="status">
                 <span class="sr-only">Cargando...</span>
@@ -45,18 +49,40 @@
             <div class="card p-4">
                 <h4 class="text-center">Texto Transcrito</h4>
                 <textarea id="transcription-result" class="form-control" rows="5" readonly>Texto transcrito aparecerá aquí...</textarea>
+                <div id="transcription-letter-count" class="text-right">Letras: 0</div> <!-- Contador de letras -->
             </div>
 
+            <!-- Botones para copiar y descargar la transcripción -->
+            <div class="d-flex justify-content-between mt-2">
+                <button id="copy-transcription" class="btn btn-secondary">Copiar Transcripción</button>
+                <button id="download-transcription" class="btn btn-success">Descargar Transcripción</button>
+            </div>
+
+            <!-- Texto cifrado -->
             <div class="card p-4 mt-3">
                 <h4 class="text-center">Texto Cifrado (AES-128)</h4>
-                <textarea id="encrypted-text" class="form-control" rows="5" readonly>Texto cifrado aparecerá aquí...</textarea>
+                
+                <!-- Botón para mostrar/ocultar el texto cifrado -->
+                <button id="toggle-encrypted" class="btn btn-info mb-2">Mostrar/Ocultar Texto Cifrado</button>
+
+                <!-- Contenedor de texto cifrado -->
+                <div id="encrypted-text-container">
+                    <textarea id="encrypted-text" class="form-control" rows="5" readonly>Texto cifrado aparecerá aquí...</textarea>
+                    <div id="encrypted-letter-count" class="text-right">Letras: 0</div> <!-- Contador de letras -->
+                </div>
             </div>
 
+            <!-- Botones para copiar y descargar el texto cifrado -->
+            <div class="d-flex justify-content-between mt-2">
+                <button id="copy-encrypted" class="btn btn-secondary">Copiar Texto Cifrado</button>
+                <button id="download-encrypted" class="btn btn-success">Descargar Texto Cifrado</button>
+            </div>
         </div>
     </div>
 
     <!-- Scripts -->
     <script src="js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+    </script>
 </body>
 </html>

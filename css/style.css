@@ -1,5 +1,5 @@
 body {
-    background-color: #f4f7fc; /* Fondo más suave */
+    background-color: #f4f7fc; 
     font-family: 'Arial', sans-serif;
     padding-top: 30px;
 }
@@ -36,7 +36,7 @@ label[for="audio-file-input"] {
 }
 
 #audio-file-input {
-    display: none; /* Ocultamos el input real */
+    display: none; 
 }
 
 .spinner-border {
@@ -50,7 +50,7 @@ label[for="audio-file-input"] {
 }
 
 #audio-playback .card {
-    border: 2px solid #007bff; /* Borde azul para la caja del reproductor */
+    border: 2px solid #007bff; 
     padding: 20px;
     background-color: #fafafa;
 }
@@ -70,4 +70,107 @@ textarea:disabled {
     background-color: #f0f0f0;
 }
 
+
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#transcription-letter-count,
+#encrypted-letter-count {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.mt-2 {
+    margin-top: 1rem;
+}
+
+#encrypted-text-container {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Modo oscuro */
+body.dark-mode {
+    background-color: #121212; 
+    color: #E0E0E0; 
+    transition: all 0.3s ease; 
+}
+
+body.dark-mode .container {
+    background-color: #1c1c1c; 
+    color: #E0E0E0; 
+}
+
+body.dark-mode .card {
+    background-color: #333333; 
+    color: #E0E0E0; 
+    border: 1px solid #444444; /
+}
+
+/* Cambiar color de texto del encabezado en modo oscuro */
+body.dark-mode h2 {
+    color: #ffffff;
+}
+
+/* Modo claro (predeterminado) */
+body {
+    background-color: #ffffff;
+    color: #000000; 
+    transition: all 0.3s ease;
+}
+
+.container {
+    background-color: #f9f9f9;
+    color: #000000; 
+}
+
+.card {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #dddddd;
+}
+
+body h2 {
+    color: #000000;
+}
 

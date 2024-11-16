@@ -8,16 +8,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioContainer = document.getElementById('audio-container'); 
     const transcriptionResult = document.getElementById('transcription-result');
     const encryptedText = document.getElementById('encrypted-text');
+    const transcriptionLetterCount = document.getElementById('transcription-letter-count');
+    const encryptedLetterCount = document.getElementById('encrypted-letter-count');
     const loadingIndicator = document.getElementById('loading-indicator');
 
+    // Función para contar letras (sin incluir espacios)
+    function countLetters(text) {
+        return text.replace(/\s/g, '').length;
+    }
+
+    // Función para actualizar el contador de letras de un área de texto
+    function updateLetterCount(textarea, counter) {
+        counter.textContent = `Letras: ${countLetters(textarea.value)}`;
+    }
+
+    // Función para actualizar ambos contadores de letras al cambiar los contenidos
+    function updateCountersOnContentChange() {
+        updateLetterCount(transcriptionResult, transcriptionLetterCount);
+        updateLetterCount(encryptedText, encryptedLetterCount);
+    }
 
     // Función para iniciar la grabación
     startBtn.onclick = async () => {
         // Limpiar contenido previo
-        transcriptionResult.textContent = 'Texto transcrito aparecerá aquí...';
-        encryptedText.textContent = 'Texto cifrado aparecerá aquí...';
+        transcriptionResult.value = 'Texto transcrito aparecerá aquí...';
+        encryptedText.value = 'Texto cifrado aparecerá aquí...';
         audioContainer.innerHTML = ''; // Limpiar el contenedor del reproductor
         audioFileInput.value = ''; // Limpiar el input de archivo
+
+        // Llama a updateCountersOnContentChange al limpiar el contenido
+        updateCountersOnContentChange();
 
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         mediaRecorder = new MediaRecorder(stream);
@@ -29,26 +49,26 @@ document.addEventListener('DOMContentLoaded', () => {
         mediaRecorder.onstop = async () => {
             const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
             const audioUrl = URL.createObjectURL(audioBlob);
-            // Aseguramos que el reproductor se inserte correctamente en el contenedor
             audioContainer.innerHTML = `<audio controls src="${audioUrl}"></audio>`;
-            audioChunks = []; // Limpiar para la proxima grabación
+            audioChunks = [];
 
             // Mostrar el indicador de carga
             loadingIndicator.style.display = 'block';
-
-            // Mostrar mensaje de transcripción
             alert('Transcribiendo el audio. Este proceso puede tardar unos segundos...');
 
             // Subir audio y transcribir
             try {
                 const transcript = await uploadAndTranscribe(audioBlob);
-                transcriptionResult.textContent = `Texto transcrito: ${transcript}`;
+                transcriptionResult.value = `Texto transcrito: ${transcript}`;
 
                 // Cifrado AES-128
                 const encrypted = CryptoJS.AES.encrypt(transcript, 'clave-secreta').toString();
-                encryptedText.textContent = `Texto cifrado: ${encrypted}`;
+                encryptedText.value = `Texto cifrado: ${encrypted}`;
+
+                // Actualizar contadores después de modificar los valores
+                updateCountersOnContentChange();
             } catch (error) {
-                transcriptionResult.textContent = 'Error en la transcripción. Inténtalo de nuevo.';
+                transcriptionResult.value = 'Error en la transcripción. Inténtalo de nuevo.';
             } finally {
                 // Ocultar el indicador de carga
                 loadingIndicator.style.display = 'none';
@@ -66,38 +86,33 @@ document.addEventListener('DOMContentLoaded', () => {
         stopBtn.disabled = true;
     };
 
-    // Función para procesar el archivo de audio seleccionado
+    // Procesar el archivo de audio seleccionado
     audioFileInput.onchange = async (event) => {
         const file = event.target.files[0];
         if (file) {
-            // Limpiar contenido previo
-            transcriptionResult.textContent = 'Texto transcrito aparecerá aquí...';
-            encryptedText.textContent = 'Texto cifrado aparecerá aquí...';
-            audioContainer.innerHTML = ''; // Limpiar el contenedor del reproductor
-            audioFileInput.value = ''; // Limpiar el input de archivo
+            transcriptionResult.value = 'Texto transcrito aparecerá aquí...';
+            encryptedText.value = 'Texto cifrado aparecerá aquí...';
+            audioContainer.innerHTML = '';
+            updateCountersOnContentChange();
 
             const audioUrl = URL.createObjectURL(file);
-            // Aseguramos que el reproductor se inserte correctamente en el contenedor
             audioContainer.innerHTML = `<audio controls src="${audioUrl}"></audio>`;
 
-            // Mostrar el indicador de carga
             loadingIndicator.style.display = 'block';
-
-            // Mostrar mensaje de transcripción
             alert('Transcribiendo el audio. Este proceso puede tardar unos segundos...');
 
-            // Subir audio y transcribir
             try {
                 const transcript = await uploadAndTranscribe(file);
-                transcriptionResult.textContent = `Texto transcrito: ${transcript}`;
+                transcriptionResult.value = `Texto transcrito: ${transcript}`;
 
-                // Cifrado AES-128
                 const encrypted = CryptoJS.AES.encrypt(transcript, 'clave-secreta').toString();
-                encryptedText.textContent = `Texto cifrado: ${encrypted}`;
+                encryptedText.value = `Texto cifrado: ${encrypted}`;
+
+                // Actualizar contadores después de modificar los valores
+                updateCountersOnContentChange();
             } catch (error) {
-                transcriptionResult.textContent = 'Error en la transcripción. Inténtalo de nuevo.';
+                transcriptionResult.value = 'Error en la transcripción. Inténtalo de nuevo.';
             } finally {
-                // Ocultar el indicador de carga
                 loadingIndicator.style.display = 'none';
             }
         }
@@ -122,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({
                 audio_url: upload_url,
-                language_code: 'es' // Indica que el audio está en español
+                language_code: 'es' 
             })
         });
         const { id } = await transcribeResponse.json();
@@ -145,4 +160,129 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return transcript;
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Obtener los elementos
+    const transcriptionResult = document.getElementById('transcription-result');
+    const encryptedText = document.getElementById('encrypted-text');
+    const copyTranscriptionBtn = document.getElementById('copy-transcription');
+    const copyEncryptedBtn = document.getElementById('copy-encrypted');
+
+    // Función para copiar al portapapeles
+    function copyToClipboard(textarea) {
+        textarea.select();
+        textarea.setSelectionRange(0, 99999); // Para móviles
+        document.execCommand('copy');
+        alert('Texto copiado al portapapeles');
+    }
+
+    // Manejar clic en botón de copiar transcripción
+    copyTranscriptionBtn.onclick = () => {
+        copyToClipboard(transcriptionResult);
+    };
+
+    // Manejar clic en botón de copiar texto cifrado
+    copyEncryptedBtn.onclick = () => {
+        copyToClipboard(encryptedText);
+    };
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Obtener los elementos
+    const transcriptionResult = document.getElementById('transcription-result');
+    const encryptedText = document.getElementById('encrypted-text');
+    const transcriptionLetterCount = document.getElementById('transcription-letter-count');
+    const encryptedLetterCount = document.getElementById('encrypted-letter-count');
+
+    // Función para contar letras (sin incluir espacios)
+    function countLetters(text) {
+        return text.replace(/\s/g, '').length;
+    }
+
+    // Función para actualizar el contador de letras de un área de texto
+    function updateLetterCount(textarea, counter) {
+        counter.textContent = `Letras: ${countLetters(textarea.value)}`;
+    }
+
+    // Llamar a la función de actualización cada vez que el contenido cambie
+    transcriptionResult.addEventListener('input', () => {
+        updateLetterCount(transcriptionResult, transcriptionLetterCount);
+    });
+
+    encryptedText.addEventListener('input', () => {
+        updateLetterCount(encryptedText, encryptedLetterCount);
+    });
+
+    // Llamar a la función de actualización programáticamente después de transcribir o cifrar
+    function updateCountersOnContentChange() {
+        updateLetterCount(transcriptionResult, transcriptionLetterCount);
+        updateLetterCount(encryptedText, encryptedLetterCount);
+    }
+
+    // Llama a updateCountersOnContentChange() al asignar nuevos valores a los textarea
+    async function handleAudioTranscription() {
+        transcriptionResult.value = 'Texto transcrito: ejemplo de texto';
+        encryptedText.value = 'Texto cifrado: ejemplo de cifrado';
+        updateCountersOnContentChange();
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Obtener los elementos del DOM
+    const transcriptionResult = document.getElementById('transcription-result');
+    const encryptedText = document.getElementById('encrypted-text');
+    const downloadTranscriptionBtn = document.getElementById('download-transcription');
+    const downloadEncryptedBtn = document.getElementById('download-encrypted');
+
+    // Función para descargar contenido como archivo .txt
+    function downloadAsFile(filename, content) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    // Manejar clic en el botón de descargar transcripción
+    downloadTranscriptionBtn.onclick = () => {
+        const content = transcriptionResult.value;
+        downloadAsFile('transcripcion.txt', content);
+    };
+
+    // Manejar clic en el botón de descargar texto cifrado
+    downloadEncryptedBtn.onclick = () => {
+        const content = encryptedText.value;
+        downloadAsFile('texto_cifrado.txt', content);
+    };
+});
+
+document.getElementById('toggle-encrypted').onclick = () => {
+    const encryptedTextContainer = document.getElementById('encrypted-text-container');
+    
+    // Alterna la visibilidad del contenedor de texto cifrado
+    if (encryptedTextContainer.style.display === 'none') {
+        encryptedTextContainer.style.display = 'block';
+    } else {
+        encryptedTextContainer.style.display = 'none';
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
+    
+    // Función para alternar el modo oscuro
+    toggleDarkModeBtn.onclick = () => {
+        document.body.classList.toggle('dark-mode');
+        
+        // Cambiar el texto del botón dependiendo del modo
+        if (document.body.classList.contains('dark-mode')) {
+            toggleDarkModeBtn.textContent = 'Modo Claro';
+        } else {
+            toggleDarkModeBtn.textContent = 'Modo Oscuro';
+        }
+    };
 });
