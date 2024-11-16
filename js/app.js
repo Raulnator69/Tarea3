@@ -227,3 +227,35 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCountersOnContentChange();
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Obtener los elementos del DOM
+    const transcriptionResult = document.getElementById('transcription-result');
+    const encryptedText = document.getElementById('encrypted-text');
+    const downloadTranscriptionBtn = document.getElementById('download-transcription');
+    const downloadEncryptedBtn = document.getElementById('download-encrypted');
+
+    // Función para descargar contenido como archivo .txt
+    function downloadAsFile(filename, content) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    // Manejar clic en el botón de descargar transcripción
+    downloadTranscriptionBtn.onclick = () => {
+        const content = transcriptionResult.value;
+        downloadAsFile('transcripcion.txt', content);
+    };
+
+    // Manejar clic en el botón de descargar texto cifrado
+    downloadEncryptedBtn.onclick = () => {
+        const content = encryptedText.value;
+        downloadAsFile('texto_cifrado.txt', content);
+    };
+});
