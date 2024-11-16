@@ -270,3 +270,19 @@ document.getElementById('toggle-encrypted').onclick = () => {
         encryptedTextContainer.style.display = 'none';
     }
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
+    
+    // Función para alternar el modo oscuro
+    toggleDarkModeBtn.onclick = () => {
+        document.body.classList.toggle('dark-mode');
+        
+        // Cambiar el texto del botón dependiendo del modo
+        if (document.body.classList.contains('dark-mode')) {
+            toggleDarkModeBtn.textContent = 'Modo Claro';
+        } else {
+            toggleDarkModeBtn.textContent = 'Modo Oscuro';
+        }
+    };
+});
